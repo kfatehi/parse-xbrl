@@ -25,7 +25,7 @@
     });
   }
   function parseStr(data) {
-    var self = this;
+    var self = {};
 
     self.loadYear = loadYear;
     self.loadField = loadField;
