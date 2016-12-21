@@ -10,7 +10,8 @@
   "main": "index.js",
   "files": ["FundamentalAccountingConcepts.js", "index.js"],
   "scripts": {
-    "test": "jasmine-node test/index.spec.js"
+    "test": "jasmine-node test/index.spec.js",
+    "tdd": "jasmine-node --autotest test/index.spec.js"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"

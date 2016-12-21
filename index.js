@@ -39,6 +39,7 @@
 
     return new Promise(function(resolve, reject) {
       var jsonObj =JSON.parse(xmlParser.toJson(data));
+
       self.documentJson = jsonObj[Object.keys(jsonObj)[0]];
 
       // Calculate and load basic facts from json doc
@@ -63,6 +64,14 @@
         self.fields['ContextForInstants'] = self.getContextForInstants(currentYearEnd);
         self.fields['ContextForDurations'] = durations.contextForDurations;
         self.fields['BalanceSheetDate'] = currentYearEnd;
+
+        self.fields['SharesDiluted'] = getFactValue('us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding', 'Duration')
+
+        self.fields['PaymentsToAcquirePropertyPlantAndEquipment'] = getFactValue('us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'Duration')
+
+        self.fields['PaymentsToAcquirePropertyPlantAndEquipment'] = getFactValue('us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'Duration')
+
+        self.fields['PaymentsToAcquireProductiveAssets'] = getFactValue('us-gaap:PaymentsToAcquireProductiveAssets', 'Duration')
 
         // Load the rest of the facts
         FundamentalAccountingConcepts.load(self)

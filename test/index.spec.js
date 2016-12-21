@@ -137,7 +137,9 @@ var amazon10kParsed = {
  'IncomeFromContinuingOperationsAfterTax': 596000000,
  'NetIncomeAttributableToNoncontrollingInterest': 0,
  'InterestAndDebtExpense': 0,
- 'FiscalYear': '--12-31'
+ 'FiscalYear': '--12-31',
+ 'PaymentsToAcquirePropertyPlantAndEquipment': 4589000000,
+ 'SharesDiluted': 477000000
 }
 
 var cannabicsPharmaceuticals10kParsed = {
@@ -655,5 +657,4 @@ describe('parse-xbrl', function () {
       }
     })
   })
-
 })
