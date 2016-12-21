@@ -65,11 +65,19 @@
         self.fields['ContextForDurations'] = durations.contextForDurations;
         self.fields['BalanceSheetDate'] = currentYearEnd;
 
-        self.fields['SharesDiluted'] = getFactValue('us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding', 'Duration')
+        self.fields['SharesDiluted'] = getFactValue('us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding', 'Duration') || 0;
 
-        self.fields['PaymentsToAcquirePropertyPlantAndEquipment'] = getFactValue('us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'Duration')
+        self.fields['PaymentsToAcquirePropertyPlantAndEquipment'] = getFactValue('us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'Duration') || 0;
 
-        self.fields['PaymentsToAcquireProductiveAssets'] = getFactValue('us-gaap:PaymentsToAcquireProductiveAssets', 'Duration')
+        self.fields['PaymentsToAcquireProductiveAssets'] = getFactValue('us-gaap:PaymentsToAcquireProductiveAssets', 'Duration') || 0;
+
+        self.fields['DebtCurrent'] = getFactValue('us-gaap:DebtCurrent', 'Instant') || 0;
+        self.fields['LongTermDebtNoncurrent'] = getFactValue('us-gaap:LongTermDebtNoncurrent', 'Instant') || 0;
+
+        self.fields['CashCashEquivalentsAndShortTermInvestments'] = getFactValue('us-gaap:CashCashEquivalentsAndShortTermInvestments', 'Instant') || 0;
+
+        self.fields['CashAndCashEquivalentsAtCarryingValue'] = getFactValue('us-gaap:CashAndCashEquivalentsAtCarryingValue', 'Instant') || 0;
+
 
         // Load the rest of the facts
         FundamentalAccountingConcepts.load(self)

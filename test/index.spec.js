@@ -557,7 +557,11 @@ var google10kParsed = {
  'ExtraordaryItemsGainLoss':0,
  'IncomeFromContinuingOperationsAfterTax':16348000000,
  'NetIncomeAttributableToNoncontrollingInterest':0,
- 'InterestAndDebtExpense':0
+ 'InterestAndDebtExpense':0,
+ 'DebtCurrent': 3225000000,
+ 'LongTermDebtNoncurrent': 1995000000,
+ 'CashCashEquivalentsAndShortTermInvestments': 73066000000,
+ 'CashAndCashEquivalentsAtCarryingValue': 16549000000
 }
 
 describe('parse-xbrl', function () {
