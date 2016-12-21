@@ -69,8 +69,6 @@
 
         self.fields['PaymentsToAcquirePropertyPlantAndEquipment'] = getFactValue('us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'Duration')
 
-        self.fields['PaymentsToAcquirePropertyPlantAndEquipment'] = getFactValue('us-gaap:PaymentsToAcquirePropertyPlantAndEquipment', 'Duration')
-
         self.fields['PaymentsToAcquireProductiveAssets'] = getFactValue('us-gaap:PaymentsToAcquireProductiveAssets', 'Duration')
 
         // Load the rest of the facts
