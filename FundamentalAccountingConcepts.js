@@ -1,19 +1,21 @@
+var debug = require('debug')('parse-xbrl');
+
 function load(xbrlDoc) {
     var self = this;
     self.xbrl = xbrlDoc;
 
-    console.log('FUNDAMENTAL ACCOUNTING CONCEPTS:');
-    console.log('Entity registrant name: ' + self.xbrl.fields['EntityRegistrantName']);
-    console.log('CIK: ' + self.xbrl.fields['EntityCentralIndexKey']);
-    console.log('Entity filer category: ' + self.xbrl.fields['EntityFilerCategory']);
-    console.log('Trading symbol: ' + self.xbrl.fields['TradingSymbol']);
-    console.log('Fiscal year: ' + self.xbrl.fields['DocumentFiscalYearFocus']);
-    console.log('Fiscal period: ' + self.xbrl.fields['DocumentFiscalPeriodFocus']);
-    console.log('Document type: ' + self.xbrl.fields['DocumentType']);
-    console.log('Balance Sheet Date (document period end date): ' + self.xbrl.fields['DocumentPeriodEndDate']);
-    console.log('Income Statement Period (YTD, current period, period start date): ' + self.xbrl.fields['IncomeStatementPeriodYTD'] + ' to ' + self.xbrl.fields['BalanceSheetDate']);
-    console.log('Context ID for document period focus (instants): ' + self.xbrl.fields['ContextForInstants']);
-    console.log('Context ID for YTD period (durations): ' + self.xbrl.fields['ContextForDurations']);
+    debug('FUNDAMENTAL ACCOUNTING CONCEPTS:');
+    debug('Entity registrant name: ' + self.xbrl.fields['EntityRegistrantName']);
+    debug('CIK: ' + self.xbrl.fields['EntityCentralIndexKey']);
+    debug('Entity filer category: ' + self.xbrl.fields['EntityFilerCategory']);
+    debug('Trading symbol: ' + self.xbrl.fields['TradingSymbol']);
+    debug('Fiscal year: ' + self.xbrl.fields['DocumentFiscalYearFocus']);
+    debug('Fiscal period: ' + self.xbrl.fields['DocumentFiscalPeriodFocus']);
+    debug('Document type: ' + self.xbrl.fields['DocumentType']);
+    debug('Balance Sheet Date (document period end date): ' + self.xbrl.fields['DocumentPeriodEndDate']);
+    debug('Income Statement Period (YTD, current period, period start date): ' + self.xbrl.fields['IncomeStatementPeriodYTD'] + ' to ' + self.xbrl.fields['BalanceSheetDate']);
+    debug('Context ID for document period focus (instants): ' + self.xbrl.fields['ContextForInstants']);
+    debug('Context ID for YTD period (durations): ' + self.xbrl.fields['ContextForDurations']);
 
     // Assets
     self.xbrl.fields['Assets'] = self.xbrl.getFactValue('us-gaap:Assets', 'Instant') || 0;
@@ -195,7 +197,7 @@ function load(xbrlDoc) {
     lngBSCheck5 = self.xbrl.fields['LiabilitiesAndEquity'] - (self.xbrl.fields['Liabilities'] + self.xbrl.fields['CommitmentsAndContingencies'] + self.xbrl.fields['TemporaryEquity'] + self.xbrl.fields['Equity']);
 
     if (lngBSCheck1) {
-        console.log('BS1: Equity(' +
+        debug('BS1: Equity(' +
             self.xbrl.fields['Equity'] +
             ') = EquityAttributableToParent(' +
             self.xbrl.fields['EquityAttributableToParent'] +
@@ -205,7 +207,7 @@ function load(xbrlDoc) {
             lngBSCheck1);
     }
     if (lngBSCheck2) {
-        console.log('BS2: Assets(' +
+        debug('BS2: Assets(' +
             self.xbrl.fields['Assets'] +
             ') = LiabilitiesAndEquity(' +
             self.xbrl.fields['LiabilitiesAndEquity'] +
@@ -213,7 +215,7 @@ function load(xbrlDoc) {
             lngBSCheck2);
     }
     if (lngBSCheck3) {
-        console.log('BS3: Assets(' +
+        debug('BS3: Assets(' +
             self.xbrl.fields['Assets'] +
             ') = CurrentAssets(' +
             self.xbrl.fields['CurrentAssets'] +
@@ -223,7 +225,7 @@ function load(xbrlDoc) {
             lngBSCheck3);
     }
     if (lngBSCheck4) {
-        console.log('BS4: Liabilities(' +
+        debug('BS4: Liabilities(' +
             self.xbrl.fields['Liabilities'] +
             ')= CurrentLiabilities(' +
             self.xbrl.fields['CurrentLiabilities'] +
@@ -233,7 +235,7 @@ function load(xbrlDoc) {
             lngBSCheck4);
     }
     if (lngBSCheck5) {
-        console.log('BS5: Liabilities and Equity(' +
+        debug('BS5: Liabilities and Equity(' +
             self.xbrl.fields['LiabilitiesAndEquity'] +
             ')= Liabilities(' +
             self.xbrl.fields['Liabilities'] +
@@ -555,37 +557,37 @@ function load(xbrlDoc) {
     var lngIS11 = self.xbrl.fields['OperatingIncomeLoss'] - (self.xbrl.fields['Revenues'] - self.xbrl.fields['CostsAndExpenses'] + self.xbrl.fields['OtherOperatingIncome']);
 
     if (lngIS1) {
-        console.log("IS1: GrossProfit(" + self.xbrl.fields['GrossProfit'] + ") = Revenues(" + self.xbrl.fields['Revenues'] + ") - CostOfRevenue(" + self.xbrl.fields['CostOfRevenue'] + "): " + lngIS1);
+        debug("IS1: GrossProfit(" + self.xbrl.fields['GrossProfit'] + ") = Revenues(" + self.xbrl.fields['Revenues'] + ") - CostOfRevenue(" + self.xbrl.fields['CostOfRevenue'] + "): " + lngIS1);
     }
     if (lngIS2) {
-        console.log("IS2: OperatingIncomeLoss(" + self.xbrl.fields['OperatingIncomeLoss'] + ") = GrossProfit(" + self.xbrl.fields['GrossProfit'] + ") - OperatingExpenses(" + self.xbrl.fields['OperatingExpenses'] + ") + OtherOperatingIncome(" + self.xbrl.fields['OtherOperatingIncome'] + "): " + lngIS2);
+        debug("IS2: OperatingIncomeLoss(" + self.xbrl.fields['OperatingIncomeLoss'] + ") = GrossProfit(" + self.xbrl.fields['GrossProfit'] + ") - OperatingExpenses(" + self.xbrl.fields['OperatingExpenses'] + ") + OtherOperatingIncome(" + self.xbrl.fields['OtherOperatingIncome'] + "): " + lngIS2);
     }
     if (lngIS3) {
-        console.log("IS3: IncomeBeforeEquityMethodInvestments(" + self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] + ") = OperatingIncomeLoss(" + self.xbrl.fields['OperatingIncomeLoss'] + ") - NonoperatingIncomeLoss(" + self.xbrl.fields['NonoperatingIncomeLoss'] + ")+ InterestAndDebtExpense(" + self.xbrl.fields['InterestAndDebtExpense'] + "): " + lngIS3);
+        debug("IS3: IncomeBeforeEquityMethodInvestments(" + self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] + ") = OperatingIncomeLoss(" + self.xbrl.fields['OperatingIncomeLoss'] + ") - NonoperatingIncomeLoss(" + self.xbrl.fields['NonoperatingIncomeLoss'] + ")+ InterestAndDebtExpense(" + self.xbrl.fields['InterestAndDebtExpense'] + "): " + lngIS3);
     }
     if (lngIS4) {
-        console.log("IS4: IncomeFromContinuingOperationsBeforeTax(" + self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] + ") = IncomeBeforeEquityMethodInvestments(" + self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] + ") + IncomeFromEquityMethodInvestments(" + self.xbrl.fields['IncomeFromEquityMethodInvestments'] + "): " + lngIS4);
+        debug("IS4: IncomeFromContinuingOperationsBeforeTax(" + self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] + ") = IncomeBeforeEquityMethodInvestments(" + self.xbrl.fields['IncomeBeforeEquityMethodInvestments'] + ") + IncomeFromEquityMethodInvestments(" + self.xbrl.fields['IncomeFromEquityMethodInvestments'] + "): " + lngIS4);
     }
     if (lngIS5) {
-        console.log("IS5: IncomeFromContinuingOperationsAfterTax(" + self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] + ") = IncomeFromContinuingOperationsBeforeTax(" + self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] + ") - IncomeTaxExpenseBenefit(" + self.xbrl.fields['IncomeTaxExpenseBenefit'] + "): " + lngIS5);
+        debug("IS5: IncomeFromContinuingOperationsAfterTax(" + self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] + ") = IncomeFromContinuingOperationsBeforeTax(" + self.xbrl.fields['IncomeFromContinuingOperationsBeforeTax'] + ") - IncomeTaxExpenseBenefit(" + self.xbrl.fields['IncomeTaxExpenseBenefit'] + "): " + lngIS5);
     }
     if  (lngIS6) {
-        console.log("IS6: NetIncomeLoss(" + self.xbrl.fields['NetIncomeLoss'] + ") = IncomeFromContinuingOperationsAfterTax(" + self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] + ") + IncomeFromDiscontinuedOperations(" + self.xbrl.fields['IncomeFromDiscontinuedOperations'] + ") + ExtraordaryItemsGainLoss(" + self.xbrl.fields['ExtraordaryItemsGainLoss'] + "): " + lngIS6);
+        debug("IS6: NetIncomeLoss(" + self.xbrl.fields['NetIncomeLoss'] + ") = IncomeFromContinuingOperationsAfterTax(" + self.xbrl.fields['IncomeFromContinuingOperationsAfterTax'] + ") + IncomeFromDiscontinuedOperations(" + self.xbrl.fields['IncomeFromDiscontinuedOperations'] + ") + ExtraordaryItemsGainLoss(" + self.xbrl.fields['ExtraordaryItemsGainLoss'] + "): " + lngIS6);
     }
     if (lngIS7) {
-        console.log("IS7: NetIncomeLoss(" + self.xbrl.fields['NetIncomeLoss'] + ") = NetIncomeAttributableToParent(" + self.xbrl.fields['NetIncomeAttributableToParent'] + ") + NetIncomeAttributableToNoncontrollingInterest(" + self.xbrl.fields['NetIncomeAttributableToNoncontrollingInterest'] + "): " + lngIS7);
+        debug("IS7: NetIncomeLoss(" + self.xbrl.fields['NetIncomeLoss'] + ") = NetIncomeAttributableToParent(" + self.xbrl.fields['NetIncomeAttributableToParent'] + ") + NetIncomeAttributableToNoncontrollingInterest(" + self.xbrl.fields['NetIncomeAttributableToNoncontrollingInterest'] + "): " + lngIS7);
     }
     if (lngIS8) {
-        console.log("IS8: NetIncomeAvailableToCommonStockholdersBasic(" + self.xbrl.fields['NetIncomeAvailableToCommonStockholdersBasic'] + ") = NetIncomeAttributableToParent(" + self.xbrl.fields['NetIncomeAttributableToParent'] + ") - PreferredStockDividendsAndOtherAdjustments(" + self.xbrl.fields['PreferredStockDividendsAndOtherAdjustments'] + "): " + lngIS8);
+        debug("IS8: NetIncomeAvailableToCommonStockholdersBasic(" + self.xbrl.fields['NetIncomeAvailableToCommonStockholdersBasic'] + ") = NetIncomeAttributableToParent(" + self.xbrl.fields['NetIncomeAttributableToParent'] + ") - PreferredStockDividendsAndOtherAdjustments(" + self.xbrl.fields['PreferredStockDividendsAndOtherAdjustments'] + "): " + lngIS8);
     }
     if (lngIS9) {
-        console.log("IS9: ComprehensiveIncome(" + self.xbrl.fields['ComprehensiveIncome'] + ") = ComprehensiveIncomeAttributableToParent(" + self.xbrl.fields['ComprehensiveIncomeAttributableToParent'] + ") + ComprehensiveIncomeAttributableToNoncontrollingInterest(" + self.xbrl.fields['ComprehensiveIncomeAttributableToNoncontrollingInterest'] + "): " + lngIS9);
+        debug("IS9: ComprehensiveIncome(" + self.xbrl.fields['ComprehensiveIncome'] + ") = ComprehensiveIncomeAttributableToParent(" + self.xbrl.fields['ComprehensiveIncomeAttributableToParent'] + ") + ComprehensiveIncomeAttributableToNoncontrollingInterest(" + self.xbrl.fields['ComprehensiveIncomeAttributableToNoncontrollingInterest'] + "): " + lngIS9);
     }
     if (lngIS10) {
-        console.log("IS10: ComprehensiveIncome(" + self.xbrl.fields['ComprehensiveIncome'] + ") = NetIncomeLoss(" + self.xbrl.fields['NetIncomeLoss'] + ") + OtherComprehensiveIncome(" + self.xbrl.fields['OtherComprehensiveIncome'] + "): " + lngIS10);
+        debug("IS10: ComprehensiveIncome(" + self.xbrl.fields['ComprehensiveIncome'] + ") = NetIncomeLoss(" + self.xbrl.fields['NetIncomeLoss'] + ") + OtherComprehensiveIncome(" + self.xbrl.fields['OtherComprehensiveIncome'] + "): " + lngIS10);
     }
     if (lngIS11) {
-        console.log("IS11: OperatingIncomeLoss(" + self.xbrl.fields['OperatingIncomeLoss'] + ") = Revenues(" + self.xbrl.fields['Revenues'] + ") - CostsAndExpenses(" + self.xbrl.fields['CostsAndExpenses'] + ") + OtherOperatingIncome(" + self.xbrl.fields['OtherOperatingIncome'] + "): " + lngIS11);
+        debug("IS11: OperatingIncomeLoss(" + self.xbrl.fields['OperatingIncomeLoss'] + ") = Revenues(" + self.xbrl.fields['Revenues'] + ") - CostsAndExpenses(" + self.xbrl.fields['CostsAndExpenses'] + ") + OtherOperatingIncome(" + self.xbrl.fields['OtherOperatingIncome'] + "): " + lngIS11);
     }
 
     // Cash flow statement
@@ -683,27 +685,27 @@ function load(xbrlDoc) {
 
 
     if (lngCF1) {
-        console.log("CF1: NetCashFlow(" + self.xbrl.fields['NetCashFlow'] + ") = (NetCashFlowsOperating(" + self.xbrl.fields['NetCashFlowsOperating'] + ") + (NetCashFlowsInvesting(" + self.xbrl.fields['NetCashFlowsInvesting'] + ") + (NetCashFlowsFinancing(" + self.xbrl.fields['NetCashFlowsFinancing'] + ") + ExchangeGainsLosses(" + self.xbrl.fields['ExchangeGainsLosses'] + "): " + lngCF1);
+        debug("CF1: NetCashFlow(" + self.xbrl.fields['NetCashFlow'] + ") = (NetCashFlowsOperating(" + self.xbrl.fields['NetCashFlowsOperating'] + ") + (NetCashFlowsInvesting(" + self.xbrl.fields['NetCashFlowsInvesting'] + ") + (NetCashFlowsFinancing(" + self.xbrl.fields['NetCashFlowsFinancing'] + ") + ExchangeGainsLosses(" + self.xbrl.fields['ExchangeGainsLosses'] + "): " + lngCF1);
     }
 
     if (lngCF2) {
-        console.log("CF2: NetCashFlowsContinuing(" + self.xbrl.fields['NetCashFlowsContinuing'] + ") = NetCashFlowsOperatingContinuing(" + self.xbrl.fields['NetCashFlowsOperatingContinuing'] + ") + NetCashFlowsInvestingContinuing(" + self.xbrl.fields['NetCashFlowsInvestingContinuing'] + ") + NetCashFlowsFinancingContinuing(" + self.xbrl.fields['NetCashFlowsFinancingContinuing'] + "): " + lngCF2);
+        debug("CF2: NetCashFlowsContinuing(" + self.xbrl.fields['NetCashFlowsContinuing'] + ") = NetCashFlowsOperatingContinuing(" + self.xbrl.fields['NetCashFlowsOperatingContinuing'] + ") + NetCashFlowsInvestingContinuing(" + self.xbrl.fields['NetCashFlowsInvestingContinuing'] + ") + NetCashFlowsFinancingContinuing(" + self.xbrl.fields['NetCashFlowsFinancingContinuing'] + "): " + lngCF2);
     }
 
     if (lngCF3) {
-        console.log("CF3: NetCashFlowsDiscontinued(" + self.xbrl.fields['NetCashFlowsDiscontinued'] + ") = NetCashFlowsOperatingDiscontinued(" + self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] + ") + NetCashFlowsInvestingDiscontinued(" + self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] + ") + NetCashFlowsFinancingDiscontinued(" + self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] + "): " + lngCF3);
+        debug("CF3: NetCashFlowsDiscontinued(" + self.xbrl.fields['NetCashFlowsDiscontinued'] + ") = NetCashFlowsOperatingDiscontinued(" + self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] + ") + NetCashFlowsInvestingDiscontinued(" + self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] + ") + NetCashFlowsFinancingDiscontinued(" + self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] + "): " + lngCF3);
     }
 
     if (lngCF4) {
-        console.log("CF4: NetCashFlowsOperating(" + self.xbrl.fields['NetCashFlowsOperating'] + ") = NetCashFlowsOperatingContinuing(" + self.xbrl.fields['NetCashFlowsOperatingContinuing'] + ") + NetCashFlowsOperatingDiscontinued(" + self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] + "): " + lngCF4);
+        debug("CF4: NetCashFlowsOperating(" + self.xbrl.fields['NetCashFlowsOperating'] + ") = NetCashFlowsOperatingContinuing(" + self.xbrl.fields['NetCashFlowsOperatingContinuing'] + ") + NetCashFlowsOperatingDiscontinued(" + self.xbrl.fields['NetCashFlowsOperatingDiscontinued'] + "): " + lngCF4);
     }
 
     if (lngCF5) {
-        console.log("CF5: NetCashFlowsInvesting(" + self.xbrl.fields['NetCashFlowsInvesting'] + ") = NetCashFlowsInvestingContinuing(" + self.xbrl.fields['NetCashFlowsInvestingContinuing'] + ") + NetCashFlowsInvestingDiscontinued(" + self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] + "): " + lngCF5);
+        debug("CF5: NetCashFlowsInvesting(" + self.xbrl.fields['NetCashFlowsInvesting'] + ") = NetCashFlowsInvestingContinuing(" + self.xbrl.fields['NetCashFlowsInvestingContinuing'] + ") + NetCashFlowsInvestingDiscontinued(" + self.xbrl.fields['NetCashFlowsInvestingDiscontinued'] + "): " + lngCF5);
     }
 
     if (lngCF6) {
-        console.log("CF6: NetCashFlowsFinancing(" + self.xbrl.fields['NetCashFlowsFinancing'] + ") = NetCashFlowsFinancingContinuing(" + self.xbrl.fields['NetCashFlowsFinancingContinuing'] + ") + NetCashFlowsFinancingDiscontinued(" + self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] + "): " + lngCF6);
+        debug("CF6: NetCashFlowsFinancing(" + self.xbrl.fields['NetCashFlowsFinancing'] + ") = NetCashFlowsFinancingContinuing(" + self.xbrl.fields['NetCashFlowsFinancingContinuing'] + ") + NetCashFlowsFinancingDiscontinued(" + self.xbrl.fields['NetCashFlowsFinancingDiscontinued'] + "): " + lngCF6);
     }
 
     // Key ratios

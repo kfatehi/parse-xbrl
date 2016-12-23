@@ -1,3 +1,5 @@
+var debug = require('debug')('parse-xbrl');
+
 (function() {
   'use strict';
 
@@ -107,7 +109,7 @@
       }
       self.fields[fieldName] = _.get(concept, key, 'Field not found.');
 
-      console.log(`loaded ${fieldName}: ${self.fields[fieldName]}`);
+      debug(`loaded ${fieldName}: ${self.fields[fieldName]}`);
     }
 
     function getFactValue(concept, periodType) {
