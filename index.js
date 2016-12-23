@@ -18,7 +18,7 @@ var debug = require('debug')('parse-xbrl');
           resolve(data);
         })
         .catch(function(err) {
-          console.log(err);
+          debug(err);
         })
       })
       .catch(function(err) {
@@ -94,12 +94,12 @@ var debug = require('debug')('parse-xbrl');
       key = key || '$t';
       fieldName = fieldName || conceptToFind;
       var concept = _.get(self.documentJson, 'dei:' + conceptToFind);
-      //console.log(fieldName + "=> " + JSON.stringify(concept, null, 3));
+      //debug(fieldName + "=> " + JSON.stringify(concept, null, 3));
       if(_.isArray(concept)) {
         // warn about multliple concepts...
-        console.warn('Found ' + concept.length + ' context references')
+        debug('Found ' + concept.length + ' context references')
         _.forEach(concept, function(conceptInstance, idx) {
-          console.warn('=> ' + conceptInstance.contextRef + (idx === 0 ? ' (selected)' : ''));
+          debug('=> ' + conceptInstance.contextRef + (idx === 0 ? ' (selected)' : ''));
         });
 
         // ... then default to the first available contextRef
@@ -122,7 +122,7 @@ var debug = require('debug')('parse-xbrl');
       } else if (periodType === 'Duration') {
         contextReference = self.fields['ContextForDurations'];
       } else {
-        console.warn('CONTEXT ERROR');
+        debug('CONTEXT ERROR');
       }
 
       _.forEach(_.get(self.documentJson, concept), function(node) {
@@ -154,7 +154,7 @@ var debug = require('debug')('parse-xbrl');
       if ((currentEnd).match(/(\d{4})-(\d{1,2})-(\d{1,2})/)) {
         return currentEnd;
       } else {
-        console.warn(currentEnd + ' is not a date');
+        debug(currentEnd + ' is not a date');
         return false;
       }
     }
@@ -201,10 +201,10 @@ var debug = require('debug')('parse-xbrl');
             if (contextPeriod && contextPeriod === endDate) {
               instanceHasExplicitMember = _.get(period, ['xbrli:entity', 'xbrli:segment', 'xbrldi:explicitMember'], false) || _.get(period, ['entity', 'segment', 'explicitMember'], false);
               if (instanceHasExplicitMember) {
-                // console.log('Instance has explicit member.');
+                // debug('Instance has explicit member.');
               } else {
                 contextForInstants = contextId;
-                // console.log('Use Context:', contextForInstants);
+                // debug('Use Context:', contextForInstants);
               }
             }
           }
@@ -244,29 +244,29 @@ var debug = require('debug')('parse-xbrl');
               durationHasExplicitMember = _.get(period, ['xbrli:entity', 'xbrli:segment', 'xbrldi:explicitMember'], false) || _.get(period, ['entity', 'segment', 'explicitMember'], false);
 
               if (durationHasExplicitMember) {
-                // console.log('Duration has explicit member.');
+                // debug('Duration has explicit member.');
               } else {
                 startDate = _.get(period, ['xbrli:period', 'xbrli:startDate']) || _.get(period, ['period', 'startDate']);
 
-                // console.log('Context start date:', startDate);
-                // console.log('YTD start date:', startDateYTD);
+                // debug('Context start date:', startDate);
+                // debug('YTD start date:', startDateYTD);
 
                 if (startDate <= startDateYTD) {
-                  // console.log('Context start date is less than current year to date, replace');
-                  // console.log('Context start date: ', startDate);
-                  // console.log('Current min: ', startDateYTD);
+                  // debug('Context start date is less than current year to date, replace');
+                  // debug('Context start date: ', startDate);
+                  // debug('Current min: ', startDateYTD);
 
                   startDateYTD = startDate;
                   contextForDurations = _.get(period, 'id');
                 } else {
-                  // console.log('Context start date is greater than YTD, keep current YTD');
-                  // console.log('Context start date: ', startDate);
+                  // debug('Context start date is greater than YTD, keep current YTD');
+                  // debug('Context start date: ', startDate);
                 }
 
-                // console.log('Use context ID: ', contextForDurations);
-                // console.log('Current min: ', startDateYTD);
-                // console.log('');
-                // console.log('Use context: ', contextForDurations);
+                // debug('Use context ID: ', contextForDurations);
+                // debug('Current min: ', startDateYTD);
+                // debug('');
+                // debug('Use context: ', contextForDurations);
               }
             }
           }
